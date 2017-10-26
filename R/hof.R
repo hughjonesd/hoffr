@@ -47,7 +47,8 @@ hof <- function(fn) {
   # like e.g. a = x; for a = sum(1:3), typeof is "language".
   args <- formals(fn)
   arg_names <- names(args) # can include "..."
-  has_defaults <- sapply(args, function (arg) arg != quote(expr = ))
+  # is.null means the default is NULL:
+  has_defaults <- sapply(args, function (arg) is.null(arg) || arg != quote(expr = ))
   without_defaults <- arg_names[! has_defaults]
   with_defaults    <- arg_names[has_defaults]
   without_defaults <- without_defaults[! without_defaults == "..."]
