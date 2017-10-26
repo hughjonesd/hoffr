@@ -56,21 +56,21 @@ hof <- function(fn) {
   fn_call <- add_args(fn_call, args[with_defaults])
 
   shell <- function (...) {
-    # given_args <- call_args(sys.call())
     given_args <- list(...) # we evaluate given args eagerly
-    fn_call_new <- add_args(fn_call, given_args)
+    fn_call_new <- hoffr:::add_args(fn_call, given_args)
     # this gives an error if inappropriate arguments have been given:
     fn_call_new <- match.call(fn, fn_call_new, expand.dots = TRUE)
     if (
-      # what heuristic says "we are ready to call"?
       # the call must have been given named arguments either as defaults
       # or previously; unnamed arguments are totally optional
-      all(without_defaults %in% names(call_args(fn_call_new)))
+      # as.list...[-1] gets the arguments
+      all(without_defaults %in% names(as.list(fn_call_new[-1])))
     ) {
       return(eval(fn_call_new))
     } else {
       shell_copy <- shell
-      environment(shell_copy) <- clean_env(fn, fn_call_new, shell, without_defaults)
+      environment(shell_copy) <- hoffr:::clean_env(fn, fn_call_new, shell,
+            without_defaults)
       return(shell_copy)
     }
   }
