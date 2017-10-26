@@ -3,6 +3,8 @@
 hoffr: higher order functions for r
 ===================================
 
+[![Travis-CI Build Status](https://travis-ci.org/hughjonesd/hoffr.svg?branch=master)](https://travis-ci.org/hughjonesd/hoffr)
+
 ``` r
 
 library(hoffr)
