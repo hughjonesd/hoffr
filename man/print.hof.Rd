@@ -17,3 +17,8 @@ NULL invisibly.
 \description{
 Print a hof object
 }
+\examples{
+lm_hof <- hof(lm)
+iris_lm <- lm_hof(data = iris)
+iris_lm
+}
