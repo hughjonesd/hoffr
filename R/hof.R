@@ -80,6 +80,30 @@ hof <- function(fn) {
   shell
 }
 
+
+
+#' Print a hof object
+#'
+#' @param x An object of class hof.
+#' @param ... Unused.
+#' @return NULL invisibly.
+#' @export
+#'
+#' @examples
+#' lm_hof <- hof(lm)
+#' iris_lm <- lm_hof(data = iris)
+#' iris_lm
+print.hof <- function(x, ...) {
+  cat("Higher order function:\n")
+  fn <- get("fn", envir = environment(x))
+  print(fn)
+  cat("Arguments:")
+  cl <- get("fn_call", envir = environment(x))
+  cl[[1]] <- substitute(fn)
+  print(cl)
+  invisible(NULL)
+}
+
 # ideas:
 # hold(fnl, ... ) allows you to fill in arguments without calling the function,
 #                 even if all arguments are complete:
