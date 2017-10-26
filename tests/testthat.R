@@ -1,4 +1,4 @@
 library(testthat)
-library(hof)
+library(hoffr)
 
-test_check("hof")
+test_check("hoffr")
