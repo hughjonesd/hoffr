@@ -1,0 +1,44 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# hoffr: higher order functions for r
+
+
+```{r example}
+
+library(hoffr)
+
+meanf <- hof(mean)
+mean_noNA <- meanf(na.rm = TRUE)
+mean_NA <- meanf(na.rm = FALSE)
+mean_trim <- meanf(trim = 0.25)
+
+mean_noNA(c(1, NA, 3))
+mean_NA(c(1, NA, 3))
+mean_trim(c(-3.5, 0, 2, 100))
+
+mean_trim_noNA <- mean_trim(na.rm = TRUE)
+mean_trim_noNA(c(-3.5, 0, 2, NA, 100))
+```
+
+
+
+## Installation
+
+You can install hoffr from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("hughjonesd/hoffr")
+```
