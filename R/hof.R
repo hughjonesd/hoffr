@@ -72,6 +72,7 @@ hof <- function(fn) {
       shell_copy <- shell
       environment(shell_copy) <- hoffr:::clean_env(fn, fn_call_new, shell,
             without_defaults)
+      class(shell_copy) <- c('hof', class(fn))
       return(shell_copy)
     }
   }
