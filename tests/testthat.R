@@ -1,4 +1,4 @@
 library(testthat)
-library(functionals)
+library(hof)
 
-test_check("functionals")
+test_check("hof")
