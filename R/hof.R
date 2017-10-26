@@ -135,7 +135,7 @@ print.hof <- function(x, ...) {
 #   tmp2(b=10)
 # i.e. should arguments be evaluated lazily?
 # But that seems likely to create code errors, and in general, why not wait
-# before calling? So, NO.
+# before calling? So, NO. Given arguments are evaluated eagerly.
 #
 # 2. If you do
 #   foo <- functional(function (a=b, d) sum(a, d))
@@ -147,9 +147,10 @@ print.hof <- function(x, ...) {
 #   foo(a = b, d = 20)
 # Whereas, you might want to do e.g.
 #   foo <- functional(function(y, x = seq_along(y)) plot(x, y))
+# So, NO. Defaults should be evaluated lazily.
 #
 # 3. I want to be able to do:
-#   foo <- functional(function(a, b) a+b)
+#   foo <- hof(function(a, b) a+b)
 #   add1 <- foo(a=1)
 #   add1(b = 2)
 #   add1(b = 3)
@@ -163,18 +164,24 @@ print.hof <- function(x, ...) {
 # On the other hand, shouldn't the following give an error?
 #   add1 <- foo(a = 1)
 #   add1(a = 2, b = 3) # oops! overwrote an argument.
-# Maybe not; maybe we just always overwrite arguments
+# Maybe not; maybe we just always overwrite arguments. At the moment, we do.
 #
-# 4. What if I want e.g. to make sprintf functional?
+# 4. What if I want e.g. to make sprintf a hof?
 # Formals of sprintf look like: function (fmt, ...)
 # But, if called as sprintf("%s") it complains, too few arguments.
 # I'd like to run
-#   as_string <- sprintf_functional("%s")
+#   as_string <- sprintf_hof("%s")
 # without triggering the function.
 # Could I do
-#   as_string <- sprintf_functional("%s", ...)
+#   as_string <- sprintf_hof("%s", ...)
 # ?
 # No, you can never use ... in a function call, only a definition.
-# Perhaps "hold()" would be useful here.
+# Perhaps `hold()`` would be useful here. Implementation: `hold` sets
+# a flag which means the function doesn't trigger unless there is something
+# in the ... argument.
+#
+# 5. What to do about e.g. lm, which has many optional arguments that
+# nevertheless lack a default? Could we have a `fire()` argument
+# that says, hey, call this damn thing the next time you add arguments?
 
 
