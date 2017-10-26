@@ -152,4 +152,22 @@ test_that("Existing functions can be passed to hof", {
 })
 
 
+test_that("hold() works to prevent early evaluation of hofs with '...' arguments", {
+  skip("Not implemented")
+  sprintf_fnl <- hof(sprintf)
+  as_string <- hold(sprintf)(fmt = "%s")
+  expect_equal(as_string(1), sprintf("%s", 1))
+})
+
+
+test_that("ready() works to ensure automatic evaluation when the hof is called", {
+  skip("Not implemented")
+  lm_fnl <- hof(lm)
+  iris_lm <- lm_fnl(data = iris)
+  iris_lm <- ready(iris_lm)
+  expect_identical(
+        iris_lm(Sepal.Length ~ Sepal.Width)
+        , lm(Sepal.Length ~ Sepal.Width, data = iris))
+})
+
 
